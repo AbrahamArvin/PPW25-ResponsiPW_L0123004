@@ -13,7 +13,7 @@ class PublicGalleryController extends Controller
                         ->withCount('photos')
                         ->latest()
                         ->get();
-        return view('public_index', compact('albums'));
+        return view('public.index', compact('albums'));
     }
 
     public function show(Album $album) {

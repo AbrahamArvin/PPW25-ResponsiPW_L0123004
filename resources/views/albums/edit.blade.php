@@ -24,6 +24,13 @@
                             <x-input-error :messages="$errors->get('description')" class="mt-2" />
                         </div>
 
+                        <div class="mt-4">
+                            <label for="is_public" class="inline-flex items-center">
+                                <input id="is_public" type="checkbox" class="rounded border-gray-300 text-indigo-600 shadow-sm focus:ring-indigo-500" name="is_public" value="1" @checked(old('is_public', $album->is_public))>
+                                <span class="ml-2 text-sm text-gray-600">{{ __('Jadikan Album ini Publik') }}</span>
+                            </label>
+                        </div>
+
                         <div class="flex items-center justify-end mt-4">
                             <x-primary-button>
                                 {{ __('Perbarui') }}

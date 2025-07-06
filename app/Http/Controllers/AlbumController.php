@@ -9,10 +9,10 @@ use Illuminate\Support\Facades\Auth;
 class AlbumController extends Controller
 {
     public function index()
-{
-    $albums = Auth::user()->albums()->withCount('photos')->latest()->get();
-    return view('albums.index', compact('albums'));
-}
+    {
+        $albums = Auth::user()->albums()->withCount('photos')->latest()->get();
+        return view('albums.index', compact('albums'));
+    }
 
     public function create()
     {
@@ -25,9 +25,13 @@ class AlbumController extends Controller
         $request->validate([
             'name' => 'required|string|max:255',
             'description' => 'nullable|string',
+            'is_public' => 'sometimes|boolean',
         ]);
 
-        Auth::user()->albums()->create($request->all());
+        $data = $request->only('name', 'description');
+        $data['is_public'] = $request->has('is_public');
+
+        Auth::user()->albums()->create($data);
 
         return redirect()->route('albums.index')
                          ->with('success', 'Album berhasil dibuat.');
@@ -53,9 +57,13 @@ class AlbumController extends Controller
         $request->validate([
             'name' => 'required|string|max:255',
             'description' => 'nullable|string',
+            'is_public' => 'sometimes|boolean',
         ]);
 
-        $album->update($request->all());
+        $data = $request->only('name', 'description');
+        $data['is_public'] = $request->has('is_public');
+
+        $album->update($data);
 
         return redirect()->route('albums.index')
                          ->with('success', 'Album berhasil diperbarui.');
@@ -64,7 +72,6 @@ class AlbumController extends Controller
   
     public function destroy(Album $album)
     {
-        
         if ($album->user_id !== Auth::id()) {
             abort(403);
         }

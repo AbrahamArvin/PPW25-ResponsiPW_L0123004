@@ -4,6 +4,7 @@ use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AlbumController;
 use App\Http\Controllers\PhotoController;
+use App\Http\Controllers\PublicGalleryController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -21,6 +22,8 @@ Route::middleware('auth')->group(function () {
     Route::get('/albums/{album}/photos/create', [PhotoController::class, 'create'])->name('photos.create');
     Route::post('/albums/{album}/photos', [PhotoController::class, 'store'])->name('photos.store');
     Route::delete('/photos/{photo}', [PhotoController::class, 'destroy'])->name('photos.destroy');
+    Route::get('/', [PublicGalleryController::class, 'index'])->name('public.index');
+    Route::get('/gallery/album/{album}', [PublicGalleryController::class, 'show'])->name('public.album.show');
 });
 
 require __DIR__.'/auth.php';

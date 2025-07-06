@@ -27,7 +27,7 @@
                                     <p class="text-sm text-gray-600">{{ $album->description }}</p>
                                     <div class="mt-4 flex justify-between items-center">
                                         <div>
-                                            <a href="#" class="text-blue-500 hover:underline">Lihat Foto</a>
+                                            <a href="{{ route('albums.show', $album) }}" class="text-blue-500 hover:underline">Lihat Foto ({{ $album->photos_count }})</a>
                                         </div>
                                         <div class="flex space-x-2">
                                             <a href="{{ route('albums.edit', $album) }}" class="text-yellow-500 hover:underline">Edit</a>

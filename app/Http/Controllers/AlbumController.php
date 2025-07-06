@@ -9,10 +9,10 @@ use Illuminate\Support\Facades\Auth;
 class AlbumController extends Controller
 {
     public function index()
-    {
-        $albums = Auth::user()->albums()->latest()->get();
-        return view('albums.index', compact('albums'));
-    }
+{
+    $albums = Auth::user()->albums()->withCount('photos')->latest()->get();
+    return view('albums.index', compact('albums'));
+}
 
     public function create()
     {
@@ -73,5 +73,15 @@ class AlbumController extends Controller
 
         return redirect()->route('albums.index')
                          ->with('success', 'Album berhasil dihapus.');
+    }
+
+    public function show(Album $album)
+    {
+        if ($album->user_id !== Auth::id()) {
+            abort(403);
+        }
+        
+        $album->load('photos');
+        return view('albums.show', compact('album'));
     }
 }
